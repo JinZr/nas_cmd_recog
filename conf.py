@@ -2,8 +2,12 @@ import torch
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
+# Feature
+FEATURE_DIM = 40
+
 # Training
 BATCH_SIZE = 256
+NUM_CLASS = 40
 
 # Arch
 DEPTH = 4

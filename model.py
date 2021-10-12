@@ -1,4 +1,5 @@
 from typing import List
+from numpy import timedelta64
 
 import torch
 from torch._C import dtype
@@ -50,14 +51,35 @@ class CmdRecogNetwork(nn.Module):
             last_width, last_context_size = width, context_size
 
         self.module_list.append(nn.MaxPool2d(kernel_size=2, stride=2))
+        self.module_list.append(nn.Flatten(start_dim=1))
+        self.model = nn.Sequential(
+            *self.module_list
+        )
+        self.hidden_layer_input_size = self.__calc_linear_layer_dim__()
+        print('hidden_layer_input_size: ', self.hidden_layer_input_size)
+        self.module_list.append(nn.Linear(in_features=self.hidden_layer_input_size, out_features=1024))
+        self.module_list.append(nn.Linear(in_features=1024, out_features=num_class))
         self.model = nn.Sequential(
             *self.module_list
         )
 
+
     def forward(self, x):
         result = self.model(x)
         print(result.size())
-        return result
+        return 
+    
+    def __calc_linear_layer_dim__(self) -> int:
+        import time
+        import numpy as np
+        import conf
+        begin_time = time.time()
+        random_num = np.random.rand(conf.BATCH_SIZE, 512, conf.FEATURE_DIM)
+        random_num_tensor = torch.from_numpy(random_num).float()
+        result = self.model(random_num_tensor)
+        _, dim = result.shape
+        print('calc time (second): ', time.time() - begin_time)
+        return dim
 
 if __name__ == '__main__':
     import random
