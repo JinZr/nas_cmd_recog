@@ -22,6 +22,8 @@ def train(pbar, pbar_update, model: nn.Module, epoch: int, log_interval: int) ->
         lr=conf.LEARNING_RATE,
         weight_decay=0.0001,
     )
+    model = model.to(device=device)
+
     # loop over the dataset multiple times
     running_loss = []
     for batch_idx, data in enumerate(dataloader):
