@@ -25,7 +25,7 @@ def train(
         network_width=network_width,
         network_context_size=network_context_size,
         num_class=num_class
-    )
+    ).to(device=device)
     optim = conf.optimizer(
         params=model.parameters(), 
         lr=conf.LEARNING_RATE,
