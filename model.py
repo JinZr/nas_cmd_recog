@@ -66,15 +66,15 @@ class CmdRecogNetwork(nn.Module):
 
     def forward(self, x):
         result = self.model(x)
-        print(result.size())
-        return 
+        # print(result.size())
+        return result
     
     def __calc_linear_layer_dim__(self) -> int:
         import time
         import numpy as np
         import conf
         begin_time = time.time()
-        random_num = np.random.rand(conf.BATCH_SIZE, 512, conf.FEATURE_DIM)
+        random_num = np.random.rand(conf.BATCH_SIZE, conf.MAX_LEN, conf.FEATURE_DIM)
         random_num_tensor = torch.from_numpy(random_num).float()
         result = self.model(random_num_tensor)
         _, dim = result.shape
@@ -89,8 +89,8 @@ if __name__ == '__main__':
     import conf
 
     model = CmdRecogNetwork(
-        feature_dim=40,
-        num_class=20,
+        feature_dim=conf.FEATURE_DIM,
+        num_class=conf.NUM_CLASS,
         network_depth=conf.DEPTH,
         network_context_size=random.choices(conf.CONTEXT_SPACE, k=conf.DEPTH),
         network_width=random.choices(conf.WIDTH_SPACE, k=conf.DEPTH)
@@ -101,3 +101,4 @@ if __name__ == '__main__':
     result = model.forward(
         random_num_tensor
     )
+    print(result.shape)

@@ -14,7 +14,7 @@ def __get_dataloader__(
     return torch.utils.data.DataLoader(
         dataset.SpeechCmdDataset(subset=subset),
         batch_size=batch_size,
-        shuffle=shuffle
+        shuffle=shuffle,
     )
 
 training_dataloader = __get_dataloader__(
@@ -34,3 +34,4 @@ validation_dataloader = __get_dataloader__(
 )
 
 if __name__ == '__main__':
+    pass
