@@ -53,7 +53,7 @@ def train(pbar, pbar_update, model: nn.Module, epoch: int, log_interval: int) ->
         # update progress bar
         pbar.update(pbar_update)
 
-        return running_loss
+    return running_loss
 
 
 if __name__ == '__main__':

@@ -1,5 +1,6 @@
 from typing import List
 import random
+import os
 
 import torch
 import torch.nn as nn
@@ -29,6 +30,8 @@ def random_init_model(
     )
 
 if __name__ == '__main__':
+    if not os.path.exists('./dataset'): os.makedirs('./dataset')
+    
     model = random_init_model(
         feature_dim=conf.FEATURE_DIM,
         network_depth=conf.DEPTH,
