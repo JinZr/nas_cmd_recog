@@ -18,6 +18,7 @@ def test(pbar, pbar_update, model: nn.Module, epoch: int):
         output = model(inputs)
 
         pred = utils.get_likely_index(output)
+        labels = utils.get_likely_index(labels)
         correct += utils.number_of_correct(pred, labels)
 
         # update progress bar
