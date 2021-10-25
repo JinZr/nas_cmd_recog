@@ -29,8 +29,8 @@ def train(pbar, pbar_update, model: nn.Module, epoch: int, log_interval: int) ->
     for batch_idx, data in enumerate(dataloader):
         inputs, labels = data['mfcc'], data['label']
         inputs, labels = inputs.to(device), labels.to(device)
-        # print(labels.shape)
-        # print(inputs.shape)
+        print(labels.shape)
+        print(inputs.shape)
         # zero the parameter gradients
         optim.zero_grad()
 
