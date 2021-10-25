@@ -15,7 +15,7 @@ def train(pbar, pbar_update, model: nn.Module, epoch: int, log_interval: int) ->
     model.train()
 
     device = conf.device
-    criterion = F.nll_loss
+    criterion = nn.CrossEntropyLoss()
     dataloader = training_dataloader
     optim = conf.optimizer(
         params=model.parameters(),
