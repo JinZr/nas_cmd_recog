@@ -7,7 +7,7 @@ from dataloader import testing_dataloader
 import utils
 import conf
 
-def test(pbar, model: nn.Module, epoch: int):
+def test(pbar, pbar_update, model: nn.Module, epoch: int):
     model.eval()
     correct = 0
     device = conf.device

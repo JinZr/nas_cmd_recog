@@ -1,10 +1,7 @@
 import torch
 
-from dataloader import training_dataloader, testing_dataloader
-
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 optimizer = torch.optim.Adam
-pbar_update = 1 / (len(training_dataloader) + len(testing_dataloader))
 
 # Feature
 FEATURE_DIM = 40

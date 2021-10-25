@@ -10,7 +10,7 @@ from dataloader import training_dataloader
 import conf
 
 
-def train(pbar, model: nn.Module, epoch: int, log_interval: int) -> List:
+def train(pbar, pbar_update, model: nn.Module, epoch: int, log_interval: int) -> List:
     
     model.train()
 
