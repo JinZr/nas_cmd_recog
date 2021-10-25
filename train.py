@@ -36,7 +36,7 @@ def train(pbar, pbar_update, model: nn.Module, epoch: int, log_interval: int) ->
 
         # forward + backward + optimize
         outputs = model(inputs)
-        # print(outputs.shape)
+        print(outputs.shape)
 
         loss = criterion(outputs, labels)
         loss.backward()
