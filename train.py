@@ -53,11 +53,4 @@ def train(pbar, pbar_update, model: nn.Module, epoch: int, log_interval: int) ->
 
 
 if __name__ == '__main__':
-    import random
-    train(
-        feature_dim=conf.FEATURE_DIM,
-        network_depth=conf.DEPTH,
-        num_class=conf.NUM_CLASS,
-        network_width=random.choices(conf.WIDTH_SPACE, k=conf.DEPTH),
-        network_context_size=random.choices(conf.CONTEXT_SPACE, k=conf.DEPTH),
-    )
+    pass
