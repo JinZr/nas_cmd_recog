@@ -1,4 +1,5 @@
 import torch
+from torch._C import device
 from torch.nn.functional import pad
 import torch.nn.functional as F
 import torchaudio
@@ -23,6 +24,7 @@ class SpeechCmdDataset(torch.utils.data.Dataset):
     def __getitem__(self, index):
         waveform, sample_rate, label, spkr_id, utter_num = self.base_dataset.__getitem__(
             index)
+        waveform = waveform.to(device=conf.device)
         if self.mfcc != None:
             mfcc = self.mfcc.forward(waveform=waveform).squeeze()
         else:
