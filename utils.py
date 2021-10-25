@@ -17,7 +17,7 @@ def index_to_label(index) -> str:
 
 def number_of_correct(pred, target):
     # count number of correct predictions
-    return pred.squeeze().eq(target).sum().item()
+    return pred.eq(target).sum().item()
 
 
 def get_likely_index(tensor):
