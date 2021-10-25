@@ -26,7 +26,7 @@ class SpeechCmdDataset(torch.utils.data.Dataset):
         if self.mfcc != None:
             mfcc = self.mfcc.forward(waveform=waveform).squeeze()
         else:
-            self.mfcc = torchaudio.transforms.MFCC(sample_rate=sample_rate)
+            self.mfcc = torchaudio.transforms.MFCC(sample_rate=sample_rate).to(conf.device)
             mfcc = self.mfcc.forward(waveform=waveform).squeeze()
         mfcc_len = mfcc.shape[-1]
         pad_mfcc = torch.nn.ConstantPad1d(
