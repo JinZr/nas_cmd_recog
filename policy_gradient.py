@@ -124,7 +124,7 @@ class PolicyGradient:
                 sum_of_rewards: sum of the rewards for the episode - needed for the average over 200 episode statistic
         """
         # Init state
-        init_state = [[3, 8, 16]]
+        init_state = [[3, 8, 16, 512, 512]]
 
         # get the action logits from the agent - (preferences)
         episode_logits = self.agent(
@@ -150,7 +150,7 @@ class PolicyGradient:
             .to(conf.device)
         action = torch.gather(action_space, 1, action_index).squeeze(1)
         print(action)
-        exit(0)
+
         # generate a submodel given predicted actions
         # net = NASModel(action)
         # net = Net()
