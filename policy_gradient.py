@@ -1,5 +1,6 @@
 from typing import Tuple
 import os
+import random
 from collections import deque
 
 import torch
@@ -127,7 +128,12 @@ class PolicyGradient:
                 sum_of_rewards: sum of the rewards for the episode - needed for the average over 200 episode statistic
         """
         # Init state
-        init_state = [[3, 8, 16, 512, 512]]
+        init_state = [[random.choice(conf.WIDTH_SPACE), random.choice(conf.CONTEXT_SPACE) for i in range(len(conf.WIDTH_SPACE))]]
+        res = []
+        for tp in init_state[0]:
+            res.append(tp[0])
+            res.append(tp[1])
+        init_state = [res]
 
         # get the action logits from the agent - (preferences)
         episode_logits = self.agent(
