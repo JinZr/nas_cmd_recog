@@ -12,7 +12,7 @@ LABELS = ['backward', 'bed', 'bird', 'cat', 'dog', 'down', 'eight', 'five', 'fol
 # Training TDNN
 BATCH_SIZE = 256
 LEARNING_RATE = 1e-3
-EPOCH_NUM = 10
+EPOCH_NUM = 3
 LOG_INTERVAL = 20
 NUM_CLASS = len(LABELS)
 
