@@ -1,9 +1,10 @@
 import torch
 import torch.nn as nn
 
+import conf
 
 class Agent(nn.Module):
-    def __init__(self, input_size, hidden_size=64, num_steps=4, device=''):
+    def __init__(self, input_size, hidden_size=64, num_steps=4):
         super(Agent, self).__init__()
 
         # Could add an embedding layer
@@ -11,13 +12,12 @@ class Agent(nn.Module):
         # self.embedding = nn.Embedding(input_size, embedding_size)
         # dropout layer
         #self.drop = nn.Dropout(dropout)
-        self.DEVICE = device
-        self.num_filter_option = 3
-        self.filter_size_option = 3
+        self.num_context_option = len(conf.CONTEXT_SPACE)
+        self.filter_size_option = len(conf.WIDTH_SPACE)
 
         self.lstm1 = nn.LSTMCell(input_size, hidden_size)
         # May be could just use different decoder if these two numbers are the same, not sure
-        self.decoder = nn.Linear(hidden_size, self.num_filter_option)
+        self.decoder = nn.Linear(hidden_size, self.num_context_option)
         #self.decoder2 = nn.Linear(hidden_size, self.filter_size_option)
 
         # num_steps = max_layer * 2 # two conv layer * 2 h-parameters (kernel size and number of kernels)
@@ -43,7 +43,7 @@ class Agent(nn.Module):
         return outputs
 
     def init_hidden(self):
-        h_t = torch.zeros(1, self.nhid, dtype=torch.float, device=self.DEVICE)
-        c_t = torch.zeros(1, self.nhid, dtype=torch.float, device=self.DEVICE)
+        h_t = torch.zeros(1, self.nhid, dtype=torch.float)
+        c_t = torch.zeros(1, self.nhid, dtype=torch.float)
 
         return (h_t, c_t)
