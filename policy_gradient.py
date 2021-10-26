@@ -17,7 +17,7 @@ import conf
 
 
 class PolicyGradient:
-    def __init__(self, train_set, test_set, use_cuda=False):
+    def __init__(self, train_set, test_set):
 
         self.EPOCH_NUM = conf.RL_EPOCH_NUM
         self.ALPHA = conf.RL_ALPHA
