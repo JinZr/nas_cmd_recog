@@ -26,6 +26,7 @@ class Agent(nn.Module):
         self.hidden = self.init_hidden()
 
     def forward(self, input):
+        print(input)
         outputs = []
         h_t, c_t = self.hidden
 
