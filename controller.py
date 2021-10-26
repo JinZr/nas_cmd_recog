@@ -43,8 +43,8 @@ class Agent(nn.Module):
         return outputs
 
     def init_hidden(self):
-        h_t = torch.zeros(1, self.nhid, dtype=torch.float)
-        c_t = torch.zeros(1, self.nhid, dtype=torch.float)
+        h_t = torch.zeros(1, self.nhid, dtype=torch.float).to(conf.device)
+        c_t = torch.zeros(1, self.nhid, dtype=torch.float).to(conf.device)
 
         return (h_t, c_t)
 
