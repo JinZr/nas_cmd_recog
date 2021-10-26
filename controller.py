@@ -32,7 +32,7 @@ class Agent(nn.Module):
         for i in range(self.num_steps):
             # input_data = self.embedding(step_data)
             h_t, c_t = self.lstm1(input, (h_t, c_t))
-            # Add drop out
+            # Add dropout
             # h_t = self.drop(h_t)
             output = self.decoder(h_t)
             input = output
