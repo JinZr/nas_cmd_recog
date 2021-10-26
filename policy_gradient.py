@@ -10,10 +10,13 @@ from torch.distributions import Categorical
 from torch.utils.tensorboard import SummaryWriter
 
 import numpy as np
+from tqdm import tqdm
 
 import conf
 from controller import Agent
 from model import CmdRecogNetwork
+import train, test, evaluation
+from dataloader import training_dataloader, testing_dataloader, validation_dataloader
 
 
 class PolicyGradient:
@@ -163,55 +166,35 @@ class PolicyGradient:
         # generate a submodel given predicted actions
         # net = NASModel(action)
         # net = Net()
-        net = CmdRecogNetwork(None).to(conf.device)
+        model = CmdRecogNetwork(
+            num_class=conf.NUM_CLASS,
+            network_depth=conf.DEPTH,
+            feature_dim=conf.FEATURE_DIM,
+            network_width=action.tolist()[0::2],
+            network_context_size=action.tolist()[1::2],
+        ).to(conf.device)
 
-        criterion = nn.CrossEntropyLoss()
-        optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
-
-        for epoch in range(self.EPOCH_NUM):  # loop over the dataset multiple times
-
-            running_loss = 0.0
-            for i, data in enumerate(self.train, 0):
-                # get the inputs; data is a list of [inputs, labels]
-                inputs, labels = data
-
-                # zero the parameter gradients
-                optimizer.zero_grad()
-
-                # forward + backward + optimize
-                outputs = net(inputs)
-                loss = criterion(outputs, labels)
-                loss.backward()
-                optimizer.step()
-
-                # print statistics
-                running_loss += loss.item()
-                if i % 2000 == 1999:  # print every 2000 mini-batches
-                    print('[%d, %5d] loss: %.3f' %
-                          (epoch + 1, i + 1, running_loss / 2000))
-                    running_loss = 0.0
-
-        print('Finished Training')
+        losses = []
+        acc = []
+        pbar_update = 1 / (len(training_dataloader) + len(testing_dataloader))
+        with tqdm(total=conf.EPOCH_NUM) as pbar:
+            for epoch in range(1, conf.EPOCH_NUM + 1):
+                training_losses = \
+                    train.train(pbar, pbar_update, model, epoch, conf.LOG_INTERVAL)
+                test_acc = \
+                    test.test(pbar, pbar_update, model, epoch)
+                losses += training_losses
+                acc += [test_acc]
 
         # load best performance epoch in this training session
         # model.load_weights('weights/temp_network.h5')
 
         # evaluate the model
-        correct = 0
-        total = 0
-        with torch.no_grad():
-            for data in self.test:
-                images, labels = data
-                outputs = net(images)
-                _, predicted = torch.max(outputs.data, 1)
-                total += labels.size(0)
-                correct += (predicted == labels).sum().item()
-
-        acc = 100 * correct / total
-        print('Accuracy of the network on the 10000 test images: {}'.format(acc))
+        vali_acc = evaluation.evaluation(model=model)
+        print('Accuracy of the network on the 10000 test images: {}'.format(vali_acc))
 
         # compute the reward
-        reward = acc
+        reward = vali_acc
 
         episode_weighted_log_probs = episode_log_probs * reward
         sum_weighted_log_probs = torch.sum(

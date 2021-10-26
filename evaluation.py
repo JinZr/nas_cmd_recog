@@ -7,7 +7,7 @@ from dataloader import validation_dataloader
 import utils
 import conf
 
-def test(pbar, pbar_update, model: nn.Module, epoch: int):
+def evaluation(model: nn.Module):
     model.eval()
     correct = 0
     device = conf.device
@@ -21,8 +21,6 @@ def test(pbar, pbar_update, model: nn.Module, epoch: int):
         labels = utils.get_likely_index(labels)
         correct += utils.number_of_correct(pred, labels)
 
-        # update progress bar
-        pbar.update(pbar_update)
-
     print(f"\Eval Epoch: {epoch}\tAccuracy: {correct}/{len(validation_dataloader.dataset)} ({100. * correct / len(validation_dataloader.dataset):.0f}%)\n")
+    return 100. * correct / len(validation_dataloader.dataset)
 
