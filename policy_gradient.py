@@ -1,5 +1,6 @@
 from typing import Tuple
 import os
+from collections import deque
 
 import torch
 import torch.nn as nn
@@ -10,10 +11,9 @@ from torch.utils.tensorboard import SummaryWriter
 
 import numpy as np
 
-from controller import Agent
-from collections import deque
-
 import conf
+from controller import Agent
+from model import CmdRecogNetwork
 
 
 class PolicyGradient:
@@ -151,8 +151,9 @@ class PolicyGradient:
         action = torch.gather(action_space, 1, action_index).squeeze(1)
         print(action)
         # generate a submodel given predicted actions
-        net = NASModel(action)
-        #net = Net()
+        # net = NASModel(action)
+        # net = Net()
+        net = CmdRecogNetwork(None).to(conf.device)
 
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
@@ -227,3 +228,6 @@ class PolicyGradient:
         entropy_bonus = -1 * self.BETA * entropy
 
         return policy_loss + entropy_bonus, entropy
+
+if __name__ == '__main__':
+    instance = PolicyGradient(None, None)
