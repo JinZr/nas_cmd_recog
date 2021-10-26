@@ -17,7 +17,7 @@ from model import CmdRecogNetwork
 
 
 class PolicyGradient:
-    def __init__(self, train_set, test_set):
+    def __init__(self):
 
         self.EPOCH_NUM = conf.RL_EPOCH_NUM
         self.ALPHA = conf.RL_ALPHA
@@ -31,9 +31,6 @@ class PolicyGradient:
         self.ACTION_SPACE = conf.RL_ACTION_SPACE
         self.MODEL_PATH = './agent_ckpt'
         if not os.path.exists(self.MODEL_PATH): os.makedirs(self.MODEL_PATH)
-
-        self.train = train_set
-        self.test = test_set
 
         # instantiate the tensorboard writer
         self.writer = SummaryWriter(comment=f'_PG_CP_Gamma={self.GAMMA},'
@@ -130,8 +127,11 @@ class PolicyGradient:
         init_state = [[3, 8, 16]]
 
         # get the action logits from the agent - (preferences)
-        episode_logits = self.agent(torch.tensor(
-            init_state).float().to(conf.device))
+        episode_logits = self.agent(
+            torch.tensor(init_state) \
+                .float() \
+                .to(conf.device)
+        )
 
         # sample an action according to the action distribution
         action_index = Categorical(logits=episode_logits).sample().unsqueeze(1)
@@ -143,13 +143,14 @@ class PolicyGradient:
 
         # append the action to the episode action list to obtain the trajectory
         # we need to store the actions and logits so we could calculate the gradient of the performance
-        #episode_actions = torch.cat((episode_actions, action_index), dim=0)
+        # episode_actions = torch.cat((episode_actions, action_index), dim=0)
 
         # Get action actions
         action_space = torch.tensor([[3, 5, 7], [8, 16, 32], [3, 5, 7], [8, 16, 32]]) \
             .to(conf.device)
         action = torch.gather(action_space, 1, action_index).squeeze(1)
         print(action)
+        exit(0)
         # generate a submodel given predicted actions
         # net = NASModel(action)
         # net = Net()
@@ -230,4 +231,5 @@ class PolicyGradient:
         return policy_loss + entropy_bonus, entropy
 
 if __name__ == '__main__':
-    instance = PolicyGradient(None, None)
+    instance = PolicyGradient()
+    instance.solve_environment()

@@ -16,7 +16,7 @@ class Agent(nn.Module):
         self.filter_size_option = len(conf.WIDTH_SPACE)
 
         self.lstm1 = nn.LSTMCell(input_size, hidden_size)
-        # May be could just use different decoder if these two numbers are the same, not sure
+        # Maybe could just use different decoder if these two numbers are the same, not sure
         self.decoder = nn.Linear(hidden_size, self.num_context_option)
         #self.decoder2 = nn.Linear(hidden_size, self.filter_size_option)
 
@@ -47,3 +47,12 @@ class Agent(nn.Module):
         c_t = torch.zeros(1, self.nhid, dtype=torch.float)
 
         return (h_t, c_t)
+
+
+if __name__ == '__main__':
+    import conf
+    agent = Agent(
+        input_size=conf.RL_INPUT_SIZE, 
+        hidden_size=conf.RL_HIDDEN_SIZE,
+        num_steps=conf.RL_NUM_STEPS
+    )
