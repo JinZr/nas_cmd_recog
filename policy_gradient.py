@@ -128,7 +128,7 @@ class PolicyGradient:
                 sum_of_rewards: sum of the rewards for the episode - needed for the average over 200 episode statistic
         """
         # Init state
-        init_state = [[random.choice(conf.WIDTH_SPACE), random.choice(conf.CONTEXT_SPACE) for i in range(len(conf.WIDTH_SPACE))]]
+        init_state = [[(random.choice(conf.WIDTH_SPACE), random.choice(conf.CONTEXT_SPACE)) for i in range(len(conf.WIDTH_SPACE))]]
         res = []
         for tp in init_state[0]:
             res.append(tp[0])
