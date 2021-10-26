@@ -21,6 +21,6 @@ def evaluation(model: nn.Module):
         labels = utils.get_likely_index(labels)
         correct += utils.number_of_correct(pred, labels)
 
-    print(f"\Eval Epoch: {epoch}\tAccuracy: {correct}/{len(validation_dataloader.dataset)} ({100. * correct / len(validation_dataloader.dataset):.0f}%)\n")
+    print(f"\Eval Accuracy: {correct}/{len(validation_dataloader.dataset)} ({100. * correct / len(validation_dataloader.dataset):.0f}%)\n")
     return 100. * correct / len(validation_dataloader.dataset)
 
