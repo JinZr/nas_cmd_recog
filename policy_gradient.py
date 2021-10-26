@@ -146,7 +146,16 @@ class PolicyGradient:
         # episode_actions = torch.cat((episode_actions, action_index), dim=0)
 
         # Get action actions
-        action_space = torch.tensor([[3, 5, 7], [8, 16, 32], [3, 5, 7], [8, 16, 32]]) \
+        action_space = torch.tensor([
+            conf.WIDTH_SPACE,
+            conf.CONTEXT_SPACE,
+            conf.WIDTH_SPACE,
+            conf.CONTEXT_SPACE,
+            conf.WIDTH_SPACE,
+            conf.CONTEXT_SPACE,
+            conf.WIDTH_SPACE,
+            conf.CONTEXT_SPACE,
+        ]) \
             .to(conf.device)
         action = torch.gather(action_space, 1, action_index).squeeze(1)
         print(action)
