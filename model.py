@@ -1,10 +1,7 @@
 from typing import List
-from numpy import timedelta64
 
 import torch
-from torch._C import dtype
 import torch.nn as nn
-from torch.nn.modules import pooling
 
 import tdnn
 
