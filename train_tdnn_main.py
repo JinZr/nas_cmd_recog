@@ -10,6 +10,7 @@ import conf
 from dataloader import training_dataloader, testing_dataloader
 from model import CmdRecogNetwork
 import train, test
+import logger
 
 def random_init_model(
     feature_dim: int,
@@ -49,6 +50,10 @@ def tdnn_main():
             losses += training_losses
             acc += [test_acc]
             # scheduler.step()
+    logger.draw_loss_acc_fig(
+        acc=acc,
+        loss=losses
+    )
 
 if __name__ == '__main__':
     tdnn_main()
