@@ -40,15 +40,17 @@ def tdnn_main():
     )
     losses = []
     acc = []
+    acc_per_epoch = []
     pbar_update = 1 / (len(training_dataloader) + len(testing_dataloader))
     with tqdm(total=conf.EPOCH_NUM) as pbar:
         for epoch in range(1, conf.EPOCH_NUM + 1):
-            training_losses = \
+            training_losses, training_acc = \
                 train.train(pbar, pbar_update, model, epoch, conf.LOG_INTERVAL)
             test_acc = \
                 test.test(pbar, pbar_update, model, epoch)
             losses += training_losses
-            acc += [test_acc]
+            acc += training_acc
+            acc_per_epoch += [test_acc]
             # scheduler.step()
     logger.draw_loss_acc_fig(
         acc=acc,

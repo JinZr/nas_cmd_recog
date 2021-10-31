@@ -1,13 +1,11 @@
 from typing import List
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
-from torch.optim import optimizer
 
-from model import CmdRecogNetwork
+import torch.nn as nn
+
+
 from dataloader import training_dataloader
 import conf
+from test import test_during_training
 
 
 def train(pbar, pbar_update, model: nn.Module, epoch: int, log_interval: int) -> List:
@@ -26,6 +24,7 @@ def train(pbar, pbar_update, model: nn.Module, epoch: int, log_interval: int) ->
 
     # loop over the dataset multiple times
     running_loss = []
+    running_acc = []
     for batch_idx, data in enumerate(dataloader):
         inputs, labels = data['mfcc'], data['label']
         inputs, labels = inputs.to(device), labels.to(device)
@@ -43,6 +42,7 @@ def train(pbar, pbar_update, model: nn.Module, epoch: int, log_interval: int) ->
         optim.step()
 
         running_loss.append(loss.item())
+        running_acc.append(test_during_training(model=model, epoch=epoch))
 
         # print training stats
         if batch_idx % log_interval == 0:
@@ -53,7 +53,7 @@ def train(pbar, pbar_update, model: nn.Module, epoch: int, log_interval: int) ->
         # update progress bar
         pbar.update(pbar_update)
 
-    return running_loss
+    return running_loss, running_acc
 
 
 if __name__ == '__main__':
