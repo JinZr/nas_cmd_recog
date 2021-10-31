@@ -20,8 +20,11 @@ def draw_fig(label: str, data: List[float]):
     ax = plt.gca()
     ax.xaxis.set_major_locator(x_major_locator)
 
-    plt.savefig('./tdnn_log/{}.png'.format(time.time()))
+    plt.savefig('./tdnn_log/{}_{}.png'.format(label, time.time()))
 
 
 def draw_loss_acc_fig(acc: List[float], loss: List[float]):
-    plt.plot()
+    draw_fig(label="acc", data=acc)
+    draw_fig(label="loss", data=loss)
+
+# def draw_composed_loss_acc_fig(acc: List[float], loss: List[float]):
