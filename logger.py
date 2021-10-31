@@ -18,7 +18,7 @@ def draw_fig(label: str, data: List[float]):
     plt.xlabel("iter")
     plt.ylabel(label)
 
-    x_major_locator = MultipleLocator(25)
+    x_major_locator = MultipleLocator(250)
     ax = plt.gca()
     ax.xaxis.set_major_locator(x_major_locator)
 
