@@ -25,4 +25,5 @@ def test(pbar, pbar_update, model: nn.Module, epoch: int):
         pbar.update(pbar_update)
 
     print(f"\nTest Epoch: {epoch}\tAccuracy: {correct}/{len(testing_dataloader.dataset)} ({100. * correct / len(testing_dataloader.dataset):.0f}%)\n")
+    return correct / len(testing_dataloader.dataset)
 
