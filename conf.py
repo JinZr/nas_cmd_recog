@@ -3,6 +3,8 @@ import torch
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 optimizer = torch.optim.Adam
 
+TDNN_LOG_PATH = "./tdnn_log"
+
 # Feature
 FEATURE_DIM = 40
 MAX_LEN = 81

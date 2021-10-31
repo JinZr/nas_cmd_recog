@@ -7,6 +7,8 @@ from matplotlib import pyplot as plt
 from matplotlib.pyplot import MultipleLocator
 from numpy import lib
 
+import conf
+
 def print(obj):
     sys.stdout.write(obj)
 
@@ -20,7 +22,8 @@ def draw_fig(label: str, data: List[float]):
     ax = plt.gca()
     ax.xaxis.set_major_locator(x_major_locator)
 
-    plt.savefig('./tdnn_log/{}_{}.png'.format(label, time.time()))
+    if not os.path.exists(conf.TDNN_LOG_PATH): os.makedirs(conf.TDNN_LOG_PATH)
+    plt.savefig('{}/{}_{}.png'.format(conf.TDNN_LOG_PATH, label, time.time()))
 
 
 def draw_loss_acc_fig(acc: List[float], loss: List[float]):
