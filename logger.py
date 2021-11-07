@@ -24,6 +24,9 @@ def draw_fig(label: str, data: List[float]):
 
     if not os.path.exists(conf.TDNN_LOG_PATH): os.makedirs(conf.TDNN_LOG_PATH)
     plt.savefig('{}/{}_{}.png'.format(conf.TDNN_LOG_PATH, label, time.time()))
+    plt.cla()
+    plt.clf()
+    plt.close()
 
 
 def draw_loss_acc_fig(acc: List[float], loss: List[float]):
